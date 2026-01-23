@@ -70,5 +70,15 @@ return {
         })
       end,
     })
+
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ObsidianNoteEnter",
+      callback = function(ev)
+        vim.keymap.set("n", "<leader>od", "<cmd>ObsidianNewFromTemplate Daily Note<cr>", {
+          buffer = ev.buf,
+          desc = "Obsidian Daily Note from Template",
+        })
+      end,
+    })
   end,
 }
