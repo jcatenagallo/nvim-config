@@ -22,6 +22,25 @@ vim.keymap.set("n", "<leader>fy", function()
   print("Copied: " .. vim.fn.expand("%"))
 end, { desc = "Copy relative file path" })
 
+vim.keymap.set("n", "<leader>yp", function()
+  local path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", path)
+  print("Copied: " .. path)
+end, { desc = "Copy relative file path" })
+
+-- 📋 Copiar referencia de líneas seleccionadas para IA
+vim.keymap.set("v", "<leader>yi", function()
+  local start_line = vim.fn.line("v")
+  local end_line = vim.fn.line(".")
+  if start_line > end_line then
+    start_line, end_line = end_line, start_line
+  end
+  local path = vim.fn.expand("%:.")
+  local msg = "lineas " .. start_line .. "-" .. end_line .. " de " .. path
+  vim.fn.setreg("+", msg)
+  print("Copied: " .. msg)
+end, { desc = "Copy line reference for AI" })
+
 -- 🪟 Split navigation con q + jkl;
 vim.keymap.set("n", "qj", "<C-w>h", { desc = "Ir al split izquierdo" })   -- q + j
 vim.keymap.set("n", "qk", "<C-w>j", { desc = "Ir al split abajo" })       -- q + k  
@@ -30,3 +49,16 @@ vim.keymap.set("n", "q;", "<C-w>l", { desc = "Ir al split derecho" })     -- q +
 
 -- 🔙 Volver a posición previa del cursor
 vim.keymap.set("n", "<leader>hh", "<C-o>", { desc = "Volver a posición previa" })
+
+-- 🔍 Grep palabra bajo el cursor
+vim.keymap.set("n", "<leader>sp", function()
+  local word = vim.fn.expand("<cword>")
+  Snacks.picker.grep({ search = word })
+end, { desc = "Grep palabra bajo cursor" })
+
+-- 🔍 Buscar palabra bajo el cursor en el archivo
+vim.keymap.set("n", "<leader>sf", function()
+  local word = vim.fn.expand("<cword>")
+  vim.fn.setreg("/", word)
+  vim.cmd("normal! n")
+end, { desc = "Buscar palabra en archivo" })
