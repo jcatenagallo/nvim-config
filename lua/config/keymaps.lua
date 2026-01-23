@@ -24,14 +24,9 @@ end, { desc = "Copy relative file path" })
 
 -- 🪟 Split navigation con q + jkl;
 vim.keymap.set("n", "qj", "<C-w>h", { desc = "Ir al split izquierdo" })   -- q + j
-vim.keymap.set("n", "qk", "<C-w>j", { desc = "Ir al split abajo" })       -- q + k
+vim.keymap.set("n", "qk", "<C-w>j", { desc = "Ir al split abajo" })       -- q + k  
 vim.keymap.set("n", "ql", "<C-w>k", { desc = "Ir al split arriba" })      -- q + l
 vim.keymap.set("n", "q;", "<C-w>l", { desc = "Ir al split derecho" })     -- q + ;
 
 -- 🔙 Volver a posición previa del cursor
 vim.keymap.set("n", "<leader>hh", "<C-o>", { desc = "Volver a posición previa" })
-
--- 📝 Git: recorrer archivos con cambios (unstaged/staged)
-vim.keymap.set("n", "<leader>gm", function()
-  require("snacks").picker.git_status()
-end, { desc = "Git modified files" })

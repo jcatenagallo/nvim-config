@@ -4,120 +4,97 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture Overview
 
-LazyVim-based Neovim configuration using lazy.nvim for plugin management.
+This is a **LazyVim-based Neovim configuration** that uses lazy.nvim for plugin management. LazyVim provides a modern, opinionated foundation with sensible defaults while allowing extensive customization.
 
 ### Core Structure
-- `init.lua` - Entry point (bootstraps via `require("config.lazy")`)
-- `lua/config/lazy.lua` - Plugin manager setup and LazyVim imports
-- `lua/config/keymaps.lua` - Custom key mappings
-- `lua/config/options.lua` - Neovim option overrides (currently empty)
-- `lua/config/autocmds.lua` - Custom auto-commands (currently empty)
-- `lua/plugins/` - Individual plugin specifications (modular approach)
+- `init.lua` - Entry point that bootstraps LazyVim
+- `lua/config/` - Core configuration (keymaps, options, autocmds)
+- `lua/plugins/` - Individual plugin specifications (one file per plugin/group)
+- `lazy-lock.json` - Plugin version lockfile (currently 36 plugins)
+- `lazyvim.json` - LazyVim metadata and configuration
 
-### Enabled LazyVim Extras
-LazyVim extras are imported in `lua/config/lazy.lua:24-25`:
-- `lazyvim.plugins.extras.linting.eslint`
-- `lazyvim.plugins.extras.formatting.prettier`
+## Plugin Management
 
-Note: `lazyvim.json` shows extras array is empty, indicating extras are managed via explicit imports in lazy.lua rather than through the LazyVim UI.
+### Common Commands
+- `:Lazy` - Open plugin manager UI for updates, installation, profiling
+- `:Lazy sync` - Synchronize with lockfile versions
+- `:Lazy update` - Update all plugins to latest versions
+- `:LazyVim` - Access LazyVim-specific utilities and commands
 
-## Commands
-
-### Plugin Management
-- `:Lazy` - Plugin manager UI
-- `:Lazy sync` - Synchronize with lockfile
-- `:Lazy update` - Update all plugins
-- `:Lazy profile` - Analyze loading performance
-
-### Code Formatting
-```bash
-stylua --config-path stylua.toml <files>
-```
-Config: 2-space indentation, 120-column width
-
-### Debugging
-- `:messages` - View error/warning messages
-- `:checkhealth` - Comprehensive health checks
-- `nvim --startuptime startup.log` - Startup timing
-
-## Plugin Configuration Pattern
+### Plugin Configuration Pattern
+Each plugin file in `lua/plugins/` returns a table with lazy.nvim specifications:
 
 ```lua
 return {
   {
     "plugin/name",
     opts = { ... },           -- Plugin options
-    keys = { ... },           -- Lazy load triggers
-    ft = "filetype",          -- Load on file types
-    event = "BufRead",        -- Load on events
+    keys = { ... },           -- Key mappings for lazy loading
+    ft = "filetype",          -- Load on specific file types
+    event = "BufRead",        -- Load on Neovim events
+    dependencies = { ... },   -- Plugin dependencies
   },
 }
 ```
 
-To override LazyVim defaults: create plugin file with same name and provide `opts` table/function.
+### Adding/Modifying Plugins
+1. Create new file in `lua/plugins/` (e.g., `myplug.lua`)
+2. Return plugin specification table
+3. LazyVim will automatically detect and load the plugin
+4. Use `opts` functions for complex configuration merging with LazyVim defaults
 
-## Key Custom Configurations
+## Configuration Conventions
 
-### Harpoon (Quick File Navigation)
-Using harpoon2 branch with custom keybindings (`lua/plugins/harpoon.lua`):
-- `<leader>H` - Add current file to Harpoon list
-- `<leader>h` - Toggle Harpoon quick menu
-- `<leader>hd` - Remove current file from Harpoon
-- `<leader>hc` - Clear all Harpoon files
-- `<leader>1-5` - Jump to files 1-5
-- `<leader>j/k/l/;` - Quick access to positions 1-4
+### Lazy Loading Strategy
+- Plugins load on-demand for optimal startup performance
+- Use `keys`, `ft`, `event`, or `cmd` for lazy loading triggers
+- Example: `keys = { "<leader>f" }` loads plugin only when key is pressed
 
-### Split Navigation
-Custom keybindings in `lua/config/keymaps.lua:26-29`:
-- `qj/qk/ql/q;` - Navigate left/down/up/right splits
+### Override LazyVim Defaults
+To modify LazyVim's built-in plugin configurations:
+1. Create plugin file with same plugin name
+2. Provide new `opts` table or function
+3. LazyVim will merge/override the configuration
 
-### File Path Operations
-Custom keybindings in `lua/config/keymaps.lua:20-23`:
-- `<leader>fy` - Copy relative file path to clipboard
+### File Organization
+- `lua/config/keymaps.lua` - Custom key mappings
+- `lua/config/options.lua` - Neovim option overrides  
+- `lua/config/autocmds.lua` - Custom auto-commands
+- Individual plugin files should be focused and single-purpose
 
-### Navigation
-- `<leader>hh` - Jump to previous cursor position (uses jump list)
-
-### Miscellaneous Keybindings
-- `<leader>o` - Focus file explorer (left window)
-- `jj` - Alternative escape in insert mode
-- `;;` - Trigger LSP autocompletion in insert mode
+## Current Specialized Configurations
 
 ### Obsidian Integration
-Configuration in `lua/plugins/obsidian.lua`:
-- Workspace: "juanvault" in iCloud (`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/juanvault/`)
-- Integrated with blink.cmp for completion
-- Keybindings (active only in Obsidian markdown files):
-  - `gf` - Follow link under cursor
-  - `<leader>ot` - Open today's note
-  - `<leader>of` - Create new note
-  - `<leader>ox` - Toggle checkbox
+- Workspace: "juanvault" in iCloud directory
+- Custom completion and checkbox handling
+- Smart action keybindings
 
-### Snacks.nvim Picker
-Configuration in `lua/plugins/snacks.lua`:
-- Shows hidden files (`hidden: true`)
-- Shows gitignored files (`ignored: true`)
+### Development Tools
+- Mason.nvim for LSP server management
+- Conform.nvim for code formatting (uses StyLua config)
+- Blink.cmp for completion engine
+- Treesitter for syntax highlighting
 
-### Completion (blink.cmp)
-Configuration in `lua/plugins/blink.lua`:
-- Uses Rust-based blink.cmp with "default" keymap preset
-- `<C-y>` to accept completion
-- `<Enter>` also accepts completion (custom override)
-- `<C-space>` to open menu or docs
-- `<C-n>/<C-p>` or `Up/Down` to navigate
-- `<C-e>` to hide menu
-- Documentation popup is manual (not auto-shown)
-- Sources: LSP, path, snippets, buffer
-- Fuzzy matching with Rust implementation
-
-### Zen Mode
-Installed (`lua/plugins/zen-mode.lua`) with default configuration.
+### Code Formatting
+- StyLua configuration: 2-space indentation, 120-column width
+- Format files: `stylua --config-path stylua.toml <files>`
 
 ## Key Architectural Decisions
 
-1. **Modular Plugin Files** - Each plugin in separate file in `lua/plugins/`
-2. **Version Locking** - `lazy-lock.json` for reproducible environments
-3. **Lazy Loading** - Plugins load on-demand via keys/ft/event/cmd (though defaults.lazy=false for custom plugins)
-4. **Blink.cmp** - Modern Rust-based completion over nvim-cmp
-5. **Harpoon2** - Using version 2 branch for file navigation
-6. **Explicit Extra Imports** - LazyVim extras imported directly in lazy.lua rather than managed through lazyvim.json
+1. **LazyVim Foundation**: Provides curated defaults while maintaining customization flexibility
+2. **Modular Plugin Files**: Each plugin/feature gets its own configuration file
+3. **Lazy Loading**: Optimized startup through strategic plugin loading
+4. **Version Locking**: Reproducible environments via lazy-lock.json
+5. **Convention Over Configuration**: Follow LazyVim patterns for consistency
+
+## Debugging and Troubleshooting
+
+### Viewing Startup Messages
+- `:messages` - View recent error/warning messages
+- `:Lazy profile` - Analyze plugin loading performance
+- `nvim --startuptime startup.log` - Generate detailed startup timing
+
+### Plugin Issues
+- `:Lazy health` - Check plugin health status
+- `:checkhealth` - Run comprehensive health checks
+- Review plugin specifications in `lua/plugins/` for configuration errors
