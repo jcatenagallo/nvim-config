@@ -62,3 +62,29 @@ vim.keymap.set("n", "<leader>sf", function()
   vim.fn.setreg("/", word)
   vim.cmd("normal! n")
 end, { desc = "Buscar palabra en archivo" })
+
+-- Agregar archivo actual a la quickfix list
+vim.keymap.set("n", "<leader>xa", function()
+  local fname = vim.fn.expand("%:p")
+  local lnum = vim.fn.line(".")
+  local text = vim.fn.getline(".")
+  vim.fn.setqflist({}, "a", { items = { { filename = fname, lnum = lnum, text = text } } })
+  vim.notify("Added to quickfix: " .. vim.fn.expand("%:."), vim.log.levels.INFO)
+end, { desc = "Add file to Quickfix List" })
+
+-- 🔄 Reiniciar LSP (fuerza re-lint del archivo)
+vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "Reiniciar LSP" })
+
+-- 🔀 Diffview contra origin/develop
+vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewOpen origin/develop<cr>", { desc = "Diffview vs origin/develop" })
+
+-- 🐛 Console.log debug para React/JS
+vim.keymap.set("n", "<leader>dl", function()
+  local word = vim.fn.expand("<cword>")
+  local filename = vim.fn.expand("%:t")
+  local log_line = string.format("console.log('debug [%s] [%s] ', %s)", filename, word, word)
+  local current_line = vim.fn.line(".")
+  local indent = vim.fn.indent(current_line)
+  local spaces = string.rep(" ", indent)
+  vim.fn.append(current_line, spaces .. log_line)
+end, { desc = "Console.log debug variable" })
