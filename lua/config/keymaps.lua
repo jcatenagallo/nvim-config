@@ -78,6 +78,10 @@ vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "Reiniciar LSP
 -- 🔀 Diffview contra origin/develop
 vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewOpen origin/develop<cr>", { desc = "Diffview vs origin/develop" })
 
+-- Resize sidebar (Neo-tree o cualquier ventana lateral)
+vim.keymap.set("n", "<leader>>", "<cmd>vertical resize +10<cr>", { desc = "Agrandar sidebar" })
+vim.keymap.set("n", "<leader><", "<cmd>vertical resize -10<cr>", { desc = "Achicar sidebar" })
+
 -- 🐛 Console.log debug para React/JS
 vim.keymap.set("n", "<leader>dl", function()
   local word = vim.fn.expand("<cword>")
