@@ -6,7 +6,28 @@
       "Bash(git checkout:*)",
       "Bash(git config:*)",
       "Bash(git diff-index:*)",
-      "WebFetch(domain:github.com)"
+      "Bash(find /Users/juancatena_1/.config/nvim -name \"*.md\" -o -name \"*.markdown\" 2>/dev/null | head -10)",
+      "Bash(ls -la /Users/juancatena_1/.config/nvim/lua/plugins/ | grep -E \"\\\\.lua$\")",
+      "Bash(grep -r \"statusline\\\\|lualine\\\\|backlinks\\\\|%c\\\\|%l\" /Users/juancatena_1/.config/nvim/lua --include=\"*.lua\" 2>/dev/null | head -20)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.lazyvim.org)",
+      "WebFetch(domain:xkyle.com)",
+      "WebFetch(domain:neovim.discourse.group)",
+      "Bash(curl -s \"https://api.github.com/repos/phpactor/phpactor\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(f'Stars: {d.get\\(\\\\\"stargazers_count\\\\\"\\)}, Updated: {d.get\\(\\\\\"updated_at\\\\\"\\)}, Description: {d.get\\(\\\\\"description\\\\\"\\)}'\\)\")",
+      "Bash(grep -r \"mason\\\\|ensure_installed\" /Users/juancatena_1/.config/nvim/lua/plugins/*.lua)",
+      "Bash(curl -s \"https://api.github.com/repos/adalessa/laravel.nvim\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(f'Stars: {d.get\\(\\\\\"stargazers_count\\\\\"\\)}, Updated: {d.get\\(\\\\\"updated_at\\\\\"\\)}, Description: {d.get\\(\\\\\"description\\\\\"\\)}, Archived: {d.get\\(\\\\\"archived\\\\\"\\)}'\\)\")",
+      "Bash(curl -s \"https://api.github.com/repos/ricardoramirezr/blade-nav.nvim\")",
+      "Bash(curl -s \"https://api.github.com/repos/jwalton512/vim-blade\")",
+      "Bash(curl -s \"https://api.github.com/repos/EmranMR/tree-sitter-blade\")",
+      "Bash(curl -s \"https://api.github.com/repos/V13Axel/neotest-pest\")",
+      "Bash(curl -s \"https://api.github.com/repos/olimorris/neotest-phpunit\")",
+      "Bash(curl -s \"https://api.github.com/repos/mfussenegger/nvim-dap\")",
+      "Bash(curl -s \"https://api.github.com/repos/tpope/vim-dadbod\")",
+      "Bash(curl -s \"https://api.github.com/repos/kristijanhusak/vim-dadbod-ui\")",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/adibhanna/laravel.nvim/main/README.md\")"
     ]
   }
 }
