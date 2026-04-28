@@ -25,6 +25,9 @@ return {
       nvim_cmp = false,
       min_chars = 0,
     },
+    ui = {
+      enable = false,
+    },
   },
 
   -- Configurar keymaps usando autocmds (nueva forma)

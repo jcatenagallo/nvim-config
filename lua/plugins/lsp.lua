@@ -6,6 +6,18 @@ return {
         enabled = false,
       },
       servers = {
+        intelephense = {
+          settings = {
+            intelephense = {
+              files = {
+                maxSize = 5000000,
+              },
+              environment = {
+                phpVersion = "8.2",
+              },
+            },
+          },
+        },
         vtsls = {
           settings = {
             typescript = {

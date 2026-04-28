@@ -73,14 +73,16 @@ vim.keymap.set("n", "<leader>xa", function()
 end, { desc = "Add file to Quickfix List" })
 
 -- 🔄 Reiniciar LSP (fuerza re-lint del archivo)
-vim.keymap.set("n", "<leader>lr", "<cmd>LspRestart<cr>", { desc = "Reiniciar LSP" })
+vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { desc = "Reiniciar LSP" })
 
 -- 🔀 Diffview contra origin/develop
 vim.keymap.set("n", "<leader>gD", "<cmd>DiffviewOpen origin/develop<cr>", { desc = "Diffview vs origin/develop" })
 
--- Resize sidebar (Neo-tree o cualquier ventana lateral)
-vim.keymap.set("n", "<leader>>", "<cmd>vertical resize +10<cr>", { desc = "Agrandar sidebar" })
-vim.keymap.set("n", "<leader><", "<cmd>vertical resize -10<cr>", { desc = "Achicar sidebar" })
+-- Resize ventanas con leader + flechas
+vim.keymap.set("n", "<leader><Right>", "<cmd>vertical resize +5<cr>", { desc = "Ensanchar ventana" })
+vim.keymap.set("n", "<leader><Left>", "<cmd>vertical resize -5<cr>", { desc = "Achicar ventana" })
+vim.keymap.set("n", "<leader><Up>", "<cmd>resize +3<cr>", { desc = "Agrandar ventana vertical" })
+vim.keymap.set("n", "<leader><Down>", "<cmd>resize -3<cr>", { desc = "Achicar ventana vertical" })
 
 -- 🐛 Console.log debug para React/JS
 vim.keymap.set("n", "<leader>dl", function()
